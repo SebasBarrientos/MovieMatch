@@ -1,8 +1,10 @@
 "use client"
 import { configureStore } from '@reduxjs/toolkit'
-
+import socketReducer from './features/socket/socketSlice'
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    socket: socketReducer
+  },
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
