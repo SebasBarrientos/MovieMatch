@@ -1,24 +1,29 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import socket, { connectToRoom, onEvent } from "@/app/utils/socket";
-import extractIdRoom  from "@/app/utils/catchRoomId";
+import extractIdRoom from "@/app/utils/catchRoomId";
+import { useDispatch, useSelector } from "react-redux";
+import { connectToRoom } from "../GlobalRedux/features/socket/socketSlice";
 
 const Lobby = () => {
+  const dispatch = useDispatch();
+  const { socket } = useSelector((state: RootState) => state.socket);
   const router = useRouter();
-
+  if (!socket) {
+    alert('No hay conexión con el servidor.');
+    return;
+  }
   const roomId = extractIdRoom();
-  console.log(roomId);
 
-  const [users, setUsers] = useState<string[]>([]);
+  useEffect(() => {
+
+  }, [])
+
 
   useEffect(() => {
     if (roomId) {
-      connectToRoom(roomId as string);
+      dispatch(connectToRoom(roomId as string));
 
-      onEvent("update-users", (users: string[]) => {
-        setUsers(users);
-      });
 
       onEvent("all-ready", () => {
         router.push(`/room/${roomId}/categories`);

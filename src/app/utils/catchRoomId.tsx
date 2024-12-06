@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 
 export const extractIdRoom = () => {
 
-    const regex = /room\/(.*?)\/categories/;
+  const regex = /room\/([^/]+)/;
     const pathName = usePathname()
     const matches = pathName.match(regex);
     if (matches) {

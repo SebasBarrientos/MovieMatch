@@ -3,9 +3,16 @@ import { configureStore } from '@reduxjs/toolkit'
 import socketReducer from './features/socket/socketSlice'
 export const store = configureStore({
   reducer: {
-    socket: socketReducer
+    socket: socketReducer,
   },
-})
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['socket/connect/fulfilled'],
+        ignoredPaths: ['socket.socket'],
+      },
+    }),
+});
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>
