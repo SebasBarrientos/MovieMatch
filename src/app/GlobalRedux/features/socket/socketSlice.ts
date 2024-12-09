@@ -1,23 +1,29 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { io, Socket } from 'socket.io-client';
 import socketService from './socketService';
+import { log } from 'console';
 
 interface SocketState {
   socket: Socket | null;
   room: {
     roomId: string | null,
-    users:[]| null
-  } ;
+    users: [] | null
+  };
   isConnected: boolean;
+  conectionError: boolean
+  creationError:boolean
 }
 
 const initialState: SocketState = {
   socket: null,
   room: {
-    roomId:null,
-    users:[]
+    roomId: null,
+    users: []
   },
   isConnected: false,
+  
+  conectionError: false,
+  creationError:false,
 };
 
 const socketSlice = createSlice({
@@ -29,11 +35,24 @@ const socketSlice = createSlice({
       .addCase(connectSocket.fulfilled, (state, action) => {
         state.socket = action.payload;
         state.isConnected = true;
+        state.conectionError = false
       })
-      .addCase(createRoom.fulfilled, (state, action: PayloadAction<string>) => {
+      .addCase(createRoom.fulfilled, (state, action) => {
+        console.log("Room created successfully:", action.payload); // Logging
         state.room.roomId = action.payload;
       })
-      .addCase //agregar si falla la creacion de la habitacion 
+      .addCase(createRoom.rejected, (state, action) => {
+        console.error("Failed to create room:", action.payload); // Logging
+      })
+      .addCase(connectToRoom.fulfilled, (state, action) => {
+        state.room.roomId = action.payload;
+        //   console.log(action.payload);
+        //   state.room.roomId = action.payload;
+      })
+      .addCase(connectToRoom.rejected, (state, action) => {
+        console.error("Failed to join room:", action.payload)
+        state.conectionError = true
+      })
   },
 })
 
@@ -42,22 +61,25 @@ const socketSlice = createSlice({
 export const connectSocket = createAsyncThunk('socket/connect', () => {
   return socketService.socket;
 })
-export const createRoom = createAsyncThunk ('socket/createRoom', async (newRoomId:string) => {
+export const createRoom = createAsyncThunk('socket/createRoom', async (newRoomId: string) => {
   try {
     return await socketService.createRoom(newRoomId);
   } catch (error) {
     console.error(error);
   }
 });
-export const connectToRoom = createAsyncThunk ('socket/connectToRoom', async (roomId:string) => {
+export const connectToRoom = createAsyncThunk('socket/connectToRoom', async (roomId: string, { rejectWithValue }) => {
   try {
-    return await socketService.connectToRoom(roomId);
-  } catch (error) {
-    console.error(error);
+      return await socketService.connectToRoom(roomId);
+  } catch (error: any) {
+      console.error("Error al intentar conectar a la sala:", error.message);
+      return rejectWithValue(error.message);
   }
 });
 
-
+export const resetVariables = () => {
+  
+}
 
 
 

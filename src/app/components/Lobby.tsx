@@ -4,10 +4,11 @@ import { useRouter } from "next/navigation";
 import extractIdRoom from "@/app/utils/catchRoomId";
 import { useDispatch, useSelector } from "react-redux";
 import { connectToRoom } from "../GlobalRedux/features/socket/socketSlice";
+import { RootState } from '@/app/GlobalRedux/store';
 
 const Lobby = () => {
   const dispatch = useDispatch();
-  const { socket } = useSelector((state: RootState) => state.socket);
+  const { socket, room, conectionError } = useSelector((state: RootState) => state.socket);
   const router = useRouter();
   if (!socket) {
     alert('No hay conexión con el servidor.');
@@ -16,25 +17,22 @@ const Lobby = () => {
   const roomId = extractIdRoom();
 
   useEffect(() => {
-
+    dispatch(connectToRoom(roomId as string));
   }, [])
 
-
   useEffect(() => {
-    if (roomId) {
-      dispatch(connectToRoom(roomId as string));
+  }, [room.users])
+  
+  useEffect(() => {
+    if (conectionError) {
+      alert("No se pudo unir a la sala. Redirigiendo...");
 
-
-      onEvent("all-ready", () => {
-        router.push(`/room/${roomId}/categories`);
-      });
+      router.push("/"); // Redirige al inicio
     }
+  }, [conectionError])
 
-    return () => {
-      socket.off("update-users");
-      socket.off("all-ready");
-    };
-  }, [roomId]);
+
+
 
   const handleReady = () => {
     socket.emit("ready", { roomId });
@@ -44,7 +42,7 @@ const Lobby = () => {
     <div className="flex flex-col items-center justify-center">
       <h1 className="text-xl font-bold">Lobby: {roomId}</h1>
       <ul>
-        {users.map((user, index) => (
+        {room.users.map((user, index) => (
           <li key={index}>{user}</li>
         ))}
       </ul>

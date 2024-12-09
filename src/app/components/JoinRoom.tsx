@@ -2,33 +2,17 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
-import { setRoomId } from '@/app/GlobalRedux/features/socket/socketSlice';
-import { joinRoom } from '@/app/utils/socket';
 
 const JoinRoom = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [roomId, setRoomIdState] = useState('');
-
   const handleJoinRoom = () => {
     if (!roomId) return;
     setLoading(true);
-    
-    // Llamar a la función de unirse a la sala desde socket.ts
-    joinRoom(roomId);
+    router.push(`/room/${roomId}/lobby`);
 
-    // Escuchar el evento de sala unida desde socket.ts
-    // socket.on('room-joined', () => {
-    //   dispatch(setRoomId(roomId)); // Actualiza el roomId en el estado global
-    //   router.push(`/room/${roomId}`);
-    // });
 
-    // socket.on('error', (message) => {
-    //   alert(message);
-    //   setLoading(false);
-    // });
   };
 
   return (
