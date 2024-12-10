@@ -1,5 +1,4 @@
 "use client"
-//agregarle la conexion desde el estado global
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createRoom } from "@/app/GlobalRedux/features/socket/socketSlice";

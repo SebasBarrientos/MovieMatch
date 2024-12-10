@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import extractIdRoom from "@/app/utils/catchRoomId";
 import { useDispatch, useSelector } from "react-redux";
-import { connectToRoom } from "../GlobalRedux/features/socket/socketSlice";
+import { connectToRoom, setUsers } from "../GlobalRedux/features/socket/socketSlice";
 import { RootState } from '@/app/GlobalRedux/store';
 
 const Lobby = () => {
@@ -12,17 +12,26 @@ const Lobby = () => {
   const router = useRouter();
   if (!socket) {
     alert('No hay conexión con el servidor.');
+    router.push("/")
     return;
   }
   const roomId = extractIdRoom();
-
+  socket.on("update-users", (users: []) => {
+    console.log("Usuarios actualizados:", users);
+    dispatch(setUsers(users));
+  });
+  socket.on("users-ready", (roomId) => {
+    console.log("HGOLLASMDKlANSD");
+    
+    router.push(`/room/${roomId}/categories`)
+  });
   useEffect(() => {
     dispatch(connectToRoom(roomId as string));
   }, [])
 
   useEffect(() => {
   }, [room.users])
-  
+
   useEffect(() => {
     if (conectionError) {
       alert("No se pudo unir a la sala. Redirigiendo...");
@@ -35,7 +44,7 @@ const Lobby = () => {
 
 
   const handleReady = () => {
-    socket.emit("ready", { roomId });
+    socket.emit("ready",  roomId);
   };
 
   return (
@@ -47,7 +56,7 @@ const Lobby = () => {
         ))}
       </ul>
       <button onClick={handleReady} className="btn-primary">
-        I'm Ready!
+        We are Ready!
       </button>
     </div>
   );

@@ -26,7 +26,7 @@ const connectToRoom = (roomId: string): Promise<string> => {
 
         socket.once("room-joined", (response) => {
             if (response.success) {
-                resolve(response.roomId); // Devuelve el roomId
+                resolve(response); // Devuelve el roomId
             } else {
                 reject(new Error("No se pudo unir a la sala."));
             }

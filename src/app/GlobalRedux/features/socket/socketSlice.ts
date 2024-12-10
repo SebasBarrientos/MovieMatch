@@ -29,7 +29,10 @@ const initialState: SocketState = {
 const socketSlice = createSlice({
   name: 'socket',
   initialState,
-  reducers: {},
+  reducers: {
+    setUsers: (state, action: PayloadAction<string[]>) => {
+    state.room.users = action.payload; 
+  }},
   extraReducers: (builder) => {
     builder
       .addCase(connectSocket.fulfilled, (state, action) => {
@@ -45,7 +48,9 @@ const socketSlice = createSlice({
         console.error("Failed to create room:", action.payload); // Logging
       })
       .addCase(connectToRoom.fulfilled, (state, action) => {
-        state.room.roomId = action.payload;
+        console.log(action.payload);
+        
+        state.room.roomId = action.payload.roomId;
         //   console.log(action.payload);
         //   state.room.roomId = action.payload;
       })
@@ -128,5 +133,5 @@ export const resetVariables = () => {
 //   setRoomId,
 //   emitEvent,
 // } = socketSlice.actions;
-
+export const { setUsers } = socketSlice.actions
 export default socketSlice.reducer;
