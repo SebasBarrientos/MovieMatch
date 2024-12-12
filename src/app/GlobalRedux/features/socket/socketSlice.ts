@@ -10,8 +10,10 @@ interface SocketState {
     users: [] | null
   };
   isConnected: boolean;
+  creationError: boolean
   conectionError: boolean
-  creationError:boolean
+  loading: boolean,
+  movieList: []
 }
 
 const initialState: SocketState = {
@@ -21,9 +23,11 @@ const initialState: SocketState = {
     users: []
   },
   isConnected: false,
-  
+
+  creationError: false,
   conectionError: false,
-  creationError:false,
+  loading: false,
+  movieList:[] 
 };
 
 const socketSlice = createSlice({
@@ -31,8 +35,12 @@ const socketSlice = createSlice({
   initialState,
   reducers: {
     setUsers: (state, action: PayloadAction<string[]>) => {
-    state.room.users = action.payload; 
-  }},
+      state.room.users = action.payload;
+    },
+    setMovieList: (state, action) => {
+      state.movieList = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(connectSocket.fulfilled, (state, action) => {
@@ -49,7 +57,7 @@ const socketSlice = createSlice({
       })
       .addCase(connectToRoom.fulfilled, (state, action) => {
         console.log(action.payload);
-        
+
         state.room.roomId = action.payload.roomId;
         //   console.log(action.payload);
         //   state.room.roomId = action.payload;
@@ -57,6 +65,13 @@ const socketSlice = createSlice({
       .addCase(connectToRoom.rejected, (state, action) => {
         console.error("Failed to join room:", action.payload)
         state.conectionError = true
+      })
+      .addCase(selectCategory.pending, (state, action) => {
+        state.loading = true
+      })
+      .addCase(selectCategory.fulfilled, (state, action) => {
+        state.loading = false
+
       })
   },
 })
@@ -75,15 +90,25 @@ export const createRoom = createAsyncThunk('socket/createRoom', async (newRoomId
 });
 export const connectToRoom = createAsyncThunk('socket/connectToRoom', async (roomId: string, { rejectWithValue }) => {
   try {
-      return await socketService.connectToRoom(roomId);
+    return await socketService.connectToRoom(roomId);
   } catch (error: any) {
-      console.error("Error al intentar conectar a la sala:", error.message);
-      return rejectWithValue(error.message);
+    console.error("Error al intentar conectar a la sala:", error.message);
+    return rejectWithValue(error.message);
+  }
+});
+export const selectCategory = createAsyncThunk('socket/selectCategory', async ({ roomId, userId, selected }: { roomId: string | null; userId: string | undefined; selected: number[] }) => {
+  try {
+    console.log(roomId);
+
+    return await socketService.selectCategory(roomId, userId, selected);
+  } catch (error: any) {
+    console.error("Error al intentar conectar a la sala:", error.message);
+    return error.message;
   }
 });
 
 export const resetVariables = () => {
-  
+
 }
 
 
@@ -133,5 +158,5 @@ export const resetVariables = () => {
 //   setRoomId,
 //   emitEvent,
 // } = socketSlice.actions;
-export const { setUsers } = socketSlice.actions
+export const { setUsers, setMovieList } = socketSlice.actions
 export default socketSlice.reducer;

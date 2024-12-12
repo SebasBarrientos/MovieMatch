@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import socket from "@/app/utils/socket";
 import extractIdRoom from "@/app/utils/catchRoomId";
+import MovieCard from "@/app/components/MovieCard";
 
 const SelectMovies = () => {
 
@@ -33,16 +34,13 @@ const SelectMovies = () => {
     if (!movie) return <p>Loading movie...</p>;
 
     return (
-        <div className="flex flex-col items-center justify-center">
-            <h1 className="text-xl font-bold">Vote on Movie</h1>
-            {/* <p>{movie.title}</p> */}
-            <button onClick={() => vote(true)} className="btn-success">
-                Like
-            </button>
-            <button onClick={() => vote(false)} className="btn-danger">
-                Dislike
-            </button>
-        </div>
+        <MovieCard
+            title="Absolution"
+            overview="An aging ex-boxer gangster working as muscle for a Boston crime boss..."
+            posterPath="/cNtAslrDhk1i3IOZ16vF7df6lMy.jpg"
+            onVote={(vote) => console.log(vote ? "Voted Yes" : "Voted No")}
+        />
+
     );
 };
 

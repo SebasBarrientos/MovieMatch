@@ -21,7 +21,6 @@ const Lobby = () => {
     dispatch(setUsers(users));
   });
   socket.on("users-ready", (roomId) => {
-    console.log("HGOLLASMDKlANSD");
     
     router.push(`/room/${roomId}/categories`)
   });

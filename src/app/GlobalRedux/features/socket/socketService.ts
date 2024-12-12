@@ -37,38 +37,31 @@ const connectToRoom = (roomId: string): Promise<string> => {
         });
     });
 };
+const selectCategory = (roomId:number, userId:number, categories): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        socket.emit("select-categories", {roomId, userId, categories});
+
+        socket.once("room-joined", (response) => {
+            if (response.success) {
+                resolve(response); // Devuelve el roomId
+            } else {
+                reject(new Error("No se pudo unir a la sala."));
+            }
+        });
+
+        socket.once("error", (message) => {
+            reject(new Error(message)); 
+        });
+    });
+};
 
 
-// const createRoom = async (newRoomId: string) => {
-//     socket.emit('create-room', newRoomId);
-//     socket.once('room-created', (response) => {
-//         if (response.success) {
-//             return response.roomId
-//         }
-//     });
-//     socket.once('error', (message) => {
-//         console.error(message);
-//     });
-// };
-
-// const connectToRoom = async (roomId: string) => {
-//     socket.emit("join-room", roomId);
-//     socket.once("room-joined", (response) => {
-//         if (response.success) {
-//             console.log(response.roomId);
-//             return response.roomId
-//         }
-//     })
-//     socket.once('error', (message) => {
-//         console.error(message);
-//     });
-//     ;
-// }
 
 const socketService = {
     socket,
     createRoom,
-    connectToRoom
+    connectToRoom,
+    selectCategory
 };
 
 
