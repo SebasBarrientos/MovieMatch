@@ -1,11 +1,10 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from '@/app/GlobalRedux/store';
+import { RootState } from "@/app/GlobalRedux/store";
 import { selectCategory, setMovieList } from "../GlobalRedux/features/socket/socketSlice";
 import { useRouter } from "next/navigation";
-
 
 type Category = {
   id: number;
@@ -37,16 +36,18 @@ const categories: Category[] = [
 function SelectCategories() {
   const { socket, room, loading } = useSelector((state: RootState) => state.socket);
   const router = useRouter();
-  
-
-  const userId = socket?.id
-  const roomId = room.roomId
-  console.log(roomId);
-
+  const userId = socket?.id;
+  const roomId = room.roomId;
   const dispatch = useDispatch();
 
   const [selected, setSelected] = useState<number[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [matchedCategory, setMatchedCategory] = useState<string | null>(null);
 
+  const getCategoryNameById = (id: number): string => {
+    const category = categories.find((cat) => cat.id === id);
+    return category ? category.name : "Unknown Category";
+  };
   const toggleCategory = (id: number): void => {
     setSelected((prevSelected) => {
       if (prevSelected.includes(id)) {
@@ -59,23 +60,27 @@ function SelectCategories() {
   };
 
   const handleSubmit = (): void => {
-
     dispatch(selectCategory({ roomId, userId, selected }));
-
   };
+
   if (!socket) {
-    alert('No hay conexión con el servidor.');
-    router.push("/")
+    alert("No hay conexión con el servidor.");
+    router.push("/");
     return;
   }
 
-  socket.on("category-match", ({selectedCategory, results}) => {
-    //Agregar popup
-    console.log(results);
-    
-    dispatch(setMovieList(results))
-    // router.push(`/room/${roomId}/movieMatch`)
+  socket.on("category-match", ({ selectedCategory, results }) => {
+    dispatch(setMovieList(results));
+    const categoryName = getCategoryNameById(Number(selectedCategory)); 
+    setMatchedCategory(categoryName); 
+    setModalOpen(true); 
   });
+
+  const handleContinue = (): void => {
+    setModalOpen(false);
+    router.push(`/room/${roomId}/movieMatch`);
+  };
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Select up to 3 Categories</h1>
@@ -85,8 +90,8 @@ function SelectCategories() {
             key={category.id}
             onClick={() => toggleCategory(category.id)}
             className={`p-4 text-center border-2 rounded cursor-pointer ${selected.includes(category.id)
-              ? "border-red-500 shadow-[0_0_10px_#ff0000]"
-              : "border-gray-300"
+                ? "border-red-500 shadow-[0_0_10px_#ff0000]"
+                : "border-gray-300"
               }`}
           >
             {category.name}
@@ -99,11 +104,26 @@ function SelectCategories() {
       >
         Submit
       </button>
+
+      {/* Modal */}
+      {modalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg max-w-sm w-full">
+            <h2 className="text-lg font-bold mb-4">Category Matched</h2>
+            <p className="mb-4">
+              The selected category is: <span className="font-semibold">{matchedCategory}</span>
+            </p>
+            <button
+              onClick={handleContinue}
+              className="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
-
-
 export default SelectCategories;
-

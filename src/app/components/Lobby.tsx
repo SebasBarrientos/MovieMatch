@@ -17,7 +17,6 @@ const Lobby = () => {
   }
   const roomId = extractIdRoom();
   socket.on("update-users", (users: []) => {
-    console.log("Usuarios actualizados:", users);
     dispatch(setUsers(users));
   });
   socket.on("users-ready", (roomId) => {

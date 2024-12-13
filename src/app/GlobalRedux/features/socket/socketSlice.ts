@@ -49,15 +49,12 @@ const socketSlice = createSlice({
         state.conectionError = false
       })
       .addCase(createRoom.fulfilled, (state, action) => {
-        console.log("Room created successfully:", action.payload); // Logging
         state.room.roomId = action.payload;
       })
       .addCase(createRoom.rejected, (state, action) => {
         console.error("Failed to create room:", action.payload); // Logging
       })
       .addCase(connectToRoom.fulfilled, (state, action) => {
-        console.log(action.payload);
-
         state.room.roomId = action.payload.roomId;
         //   console.log(action.payload);
         //   state.room.roomId = action.payload;

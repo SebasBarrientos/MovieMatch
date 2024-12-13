@@ -1,46 +1,63 @@
-"use client"
+"use client";
+
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import socket from "@/app/utils/socket";
-import extractIdRoom from "@/app/utils/catchRoomId";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/GlobalRedux/store";
 import MovieCard from "@/app/components/MovieCard";
 
 const SelectMovies = () => {
+    const { socket, room, movieList } = useSelector((state: RootState) => state.socket);
+    const userId = socket?.id;
+    const roomId = room.roomId;
+    
+    const [winner, setWinner] = useState(null);
+    const [index, setIndex] = useState(0);
+    const [movie, setMovie] = useState(movieList[0]); // Start with the first movie
 
-    const roomId = extractIdRoom();
-    console.log(roomId);
+    // Emit a vote for the current movie
+    const vote = (like: boolean) => {
+        console.log("Emitiendo Voto", like);
+        socket.emit("vote-movie", { roomId, vote: like ? "like" : "dislike" });
+        console.log("Voto emitido");
+        
+    };
 
-    const [movie, setMovie] = useState(null);
-
+    const handleWinner = (index: number) => {
+        setWinner(index);
+        console.log(index);
+        
+    };
     useEffect(() => {
-        socket.on("next-movie", (movie) => {
-            setMovie(movie);
-        });
+        // Function to handle receiving the next movie
+        const handleNextMovie = (newIndex: number) => {
+            console.log("señal recibida");
+            console.log(newIndex);
+            
+            setIndex(newIndex);
+            setMovie(movieList[newIndex]);
+        };
 
-        socket.on("match-found", (movie) => {
-            alert(`Match Found! Movie: ${movie.title}`);
-        });
+        socket.on("next-movie", handleNextMovie);
+        socket.on("match-found", handleWinner);
+ 
 
         return () => {
-            socket.off("next-movie");
-            socket.off("match-found");
+            socket.off("next-movie", handleNextMovie);
         };
-    }, []);
-
-    const vote = (like: boolean) => {
-        socket.emit("vote-movie", { roomId, vote: like ? "like" : "dislike" });
-    };
+    }, [movie]); // Dependencies ensure the listener works with the current movie list and socket
 
     if (!movie) return <p>Loading movie...</p>;
 
     return (
         <MovieCard
-            title="Absolution"
-            overview="An aging ex-boxer gangster working as muscle for a Boston crime boss..."
-            posterPath="/cNtAslrDhk1i3IOZ16vF7df6lMy.jpg"
-            onVote={(vote) => console.log(vote ? "Voted Yes" : "Voted No")}
+            title={movie.title}
+            overview={movie.overview}
+            posterPath={movie.backdrop_path}
+            onVote={vote}
+            winner = {winner}
         />
 
+        
     );
 };
 

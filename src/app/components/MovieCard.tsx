@@ -1,13 +1,20 @@
-import React from 'react';
+import { log } from 'node:console';
+import React, { useState } from 'react';
 
 interface MovieProps {
   title: string;
   overview: string;
   posterPath: string;
   onVote: (vote: boolean) => void; // Callback for voting, `true` for positive, `false` for negative
+  winner:number | null;
 }
 
-const MovieCard: React.FC<MovieProps> = ({ title, overview, posterPath, onVote }) => {
+const MovieCard: React.FC<MovieProps> = ({ title, overview, posterPath, onVote, winner }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  if (winner!=null) {
+    setModalOpen(true)
+  }
+
   return (
     <div className="flex flex-col items-center bg-gray-900 text-white p-6 rounded-lg shadow-lg w-full max-w-lg mx-auto">
       {/* Movie Poster */}
@@ -38,6 +45,22 @@ const MovieCard: React.FC<MovieProps> = ({ title, overview, posterPath, onVote }
           <span className="material-icons mr-2">close</span> Reject
         </button>
       </div>
+      {modalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg max-w-sm w-full">
+            <h2 className="text-lg font-bold mb-4">Category Matched</h2>
+            <p className="mb-4">
+              The winner is: <span className="font-semibold">{title}</span>
+            </p>
+            {/* <button
+              onClick={handleContinue}
+              className="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            >
+              Restar
+            </button> */} //Poner que redirija a home
+          </div>
+        </div>
+      )}
     </div>
   );
 };
