@@ -3,6 +3,10 @@
 import Lobby from '@/app/components/Lobby';
 
 export default function LobbyPage() {
-  return <Lobby />;
+  return (
+    <div className='bg-slate-950'>
+  <Lobby />
+    </div>
+)
 }
 

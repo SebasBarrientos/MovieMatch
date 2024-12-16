@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
+import { button } from "./Button";
 const JoinRoom = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -16,22 +16,23 @@ const JoinRoom = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h2 className="text-2xl font-bold mb-4">Join a Room</h2>
+    <div className="flex  items-center justify-center gap-1">
       <input
         type="text"
         name="roomId"
         value={roomId}
         onChange={(e) => setRoomIdState(e.target.value)}
-        className="p-2 border rounded"
+        className="bg-[#222630] px-3 py-2 outline-none text-white rounded-lg border-2 transition-colors duration-100 border-solid focus:border-[#596A95] border-[#2B3040]"
         placeholder="Enter Room ID"
       />
       <button
         onClick={handleJoinRoom}
-        className="btn-primary mt-4"
         disabled={loading}
+        className="bg-slate-950 text-slate-400 border border-slate-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
       >
-        {loading ? 'Joining Room...' : 'Join Room'}
+        <span className="bg-slate-400 shadow-slate-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]">
+        </span>
+          {loading ? 'Joining Room...' : 'Join Room'}
       </button>
     </div>
   );

@@ -22,12 +22,12 @@ const SelectMovies = () => {
         
     };
 
-    const handleWinner = (index: number) => {
-        setWinner(index);
-        console.log(index);
-        
-    };
     useEffect(() => {
+        const handleWinner = (index: number) => {
+            setWinner(index);
+            console.log(index);
+            
+        };
         // Function to handle receiving the next movie
         const handleNextMovie = (newIndex: number) => {
             console.log("señal recibida");
@@ -39,12 +39,13 @@ const SelectMovies = () => {
 
         socket.on("next-movie", handleNextMovie);
         socket.on("match-found", handleWinner);
- 
-
+        
+        
         return () => {
             socket.off("next-movie", handleNextMovie);
+            socket.off("match-found", handleWinner);
         };
-    }, [movie]); // Dependencies ensure the listener works with the current movie list and socket
+    }, [socket, movieList]); 
 
     if (!movie) return <p>Loading movie...</p>;
 
