@@ -71,11 +71,11 @@ function SelectCategories() {
 
   socket.on("category-match", ({ selectedCategory, results }) => {
     dispatch(setMovieList(results));
-    const categoryName = getCategoryNameById(Number(selectedCategory)); 
+  const categoryName = getCategoryNameById(Number(selectedCategory)); 
     setMatchedCategory(categoryName); 
     setModalOpen(true); 
   });
-
+    
   const handleContinue = (): void => {
     setModalOpen(false);
     router.push(`/room/${roomId}/movieMatch`);

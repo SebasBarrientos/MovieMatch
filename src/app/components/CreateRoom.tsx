@@ -13,7 +13,7 @@ const CreateRoom = () => {
   const handleCreateRoom = async () => {
 
     if (!socket) {
-      alert('No hay conexión con el servidor.');
+      alert('There is no conection to the server');
       return;
     }
 
@@ -25,10 +25,10 @@ const CreateRoom = () => {
       if (success) {
         router.push(`/room/${newRoomId}/lobby`);
       } else {
-        alert("Error al crear la sala.");
+        alert("Error creating the room.");
       }
     } catch (error) {
-      alert("Error de conexión con el servidor.");
+      alert("Error conecting to the server.");
     } finally {
       setLoading(false);
     }

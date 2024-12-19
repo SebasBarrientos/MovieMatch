@@ -4,16 +4,18 @@ import socketService from './socketService';
 import { log } from 'console';
 
 interface SocketState {
-  socket: Socket | null;
+  socket: any | null;
   room: {
-    roomId: string | null,
-    users: [] | null
+    roomId: number | null,
+    users: string[] | null
   };
   isConnected: boolean;
   creationError: boolean
   conectionError: boolean
   loading: boolean,
-  movieList: []
+  movieList: [],
+  movieProviders: any
+
 }
 
 const initialState: SocketState = {
@@ -27,7 +29,8 @@ const initialState: SocketState = {
   creationError: false,
   conectionError: false,
   loading: false,
-  movieList:[] 
+  movieList: [],
+  movieProviders: null,
 };
 
 const socketSlice = createSlice({
@@ -68,8 +71,19 @@ const socketSlice = createSlice({
       })
       .addCase(selectCategory.fulfilled, (state, action) => {
         state.loading = false
-
       })
+      // .addCase(movieProviders.fulfilled, (state, action) => {
+      //   console.log(action.payload.results);
+      //   if (Object.keys(action.payload.results).length === 0) {
+      //     console.log("Results vacio");
+          
+      //     state.movieProviders = "Only in Cinemas"
+      //   }  else {
+      //     state.movieProviders = action.payload.results.ES
+      //     console.log("Results vacio y condicional no funciona1");
+      //   }        
+      //   console.log("Results vacio y condicional no funciona2");
+      // })
   },
 })
 
@@ -78,7 +92,7 @@ const socketSlice = createSlice({
 export const connectSocket = createAsyncThunk('socket/connect', () => {
   return socketService.socket;
 })
-export const createRoom = createAsyncThunk('socket/createRoom', async (newRoomId: string) => {
+export const createRoom = createAsyncThunk('socket/createRoom', async (newRoomId: number) => {
   try {
     return await socketService.createRoom(newRoomId);
   } catch (error) {
@@ -93,7 +107,7 @@ export const connectToRoom = createAsyncThunk('socket/connectToRoom', async (roo
     return rejectWithValue(error.message);
   }
 });
-export const selectCategory = createAsyncThunk('socket/selectCategory', async ({ roomId, userId, selected }: { roomId: string | null; userId: string | undefined; selected: number[] }) => {
+export const selectCategory = createAsyncThunk('socket/selectCategory', async ({ roomId, userId, selected }: { roomId: number; userId: number; selected: [] }) => {
   try {
     console.log(roomId);
 
@@ -103,57 +117,21 @@ export const selectCategory = createAsyncThunk('socket/selectCategory', async ({
     return error.message;
   }
 });
+// export const movieProviders = createAsyncThunk("socket/movieProviders", async ({ roomId, movieId }: { roomId: number; movieId: number }) => {
+//   try {
+//     return await socketService.movieProviders(roomId, movieId);
+//   } catch (error: any) {
+//     console.error("Error al intentar conectar a la sala:", error.message);
+//     return error.message;
+//   }
+// })
+
+
+
 
 export const resetVariables = () => {
 
 }
 
-
-
-
-
-
-
-
-// const socketSlice = createSlice({
-//   name: 'socket',
-//   initialState,
-//   reducers: {
-//     initializeSocket: (state) => {
-//       if (!state.socket) {
-//         state.socket = io('http://localhost:3000'); // Cambia esto a tu servidor si es diferente
-//       }
-//     },
-//     connectSocket: (state) => {
-//       if (state.socket && !state.isConnected) {
-//         state.socket.connect();
-//         state.isConnected = true;
-//       }
-//     },
-//     disconnectSocket: (state) => {
-//       if (state.socket) {
-//         state.socket.disconnect();
-//         state.isConnected = false;
-//       }
-//     },
-//     setRoomId: (state, action: PayloadAction<string>) => {
-//       state.roomId = action.payload;
-//     },
-//     emitEvent: (state, action: PayloadAction<{ event: string; data?: any }>) => {
-//       if (state.socket) {
-//         const { event, data } = action.payload;
-//         state.socket.emit(event, data);
-//       }
-//     },
-//   },
-// });
-
-// export const {
-//   initializeSocket,
-//   connectSocket,
-//   disconnectSocket,
-//   setRoomId,
-//   emitEvent,
-// } = socketSlice.actions;
 export const { setUsers, setMovieList } = socketSlice.actions
 export default socketSlice.reducer;
