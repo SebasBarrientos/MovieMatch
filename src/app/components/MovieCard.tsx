@@ -57,7 +57,6 @@ const MovieCard: React.FC<MovieProps> = ({
         router.push(`https://www.themoviedb.org/movie/${movieId}/watch`);
         alert("We couldn't find providers for this movie in your country.");
       } else {
-        console.log("LLEGUEEE", url);
         router.push(url);
       }
     } catch (error) {
@@ -95,11 +94,11 @@ const MovieCard: React.FC<MovieProps> = ({
 
       <div>
         <h1 className="text-2xl font-bold mb-4 text-center">{title}</h1>
-        <p className="text-center text-gray-300 mb-6">Release Date: {release_date}</p>
       </div>
 
       <p className="text-center text-gray-300 mb-6">{overview}</p>
 
+        <p className="text-center text-gray-300 mb-6">Release Date: {release_date}</p>
       <div className="flex justify-around w-full">
         <button
           onClick={() => onVote(true)}
@@ -123,7 +122,7 @@ const MovieCard: React.FC<MovieProps> = ({
             <h2
               className="text-3xl cursor-pointer text-white font-bold relative mb-4 text-center bg-gradient-to-r from-violet-500 from-10% via-sky-500 via-30% to-pink-500 to-90% bg-[length:400%] rounded-[20px] z-10 hover:animate-gradient-xy hover:bg-[length:100%] before:content-[''] before:absolute before:-top-[5px] before:-bottom-[5px] before:-left-[5px] before:-right-[5px] before:bg-gradient-to-r before:from-violet-500 before:from-10% before:via-sky-500 before:via-30% before:to-pink-500 before:bg-[length:400%] before:-z-10 before:rounded-[25px] before:hover:blur-xl before:transition-all before:ease-in-out before:duration-[1s] before:hover:bg-[length:10%] active:bg-violet-700 focus:ring-violet-700"
             >
-              Movie Matched
+              MovieMatch
             </h2>
             <p className="mb-4 text-center relative ">
               The winner is: <span className="font-semibold">{title}</span>
@@ -149,7 +148,7 @@ const MovieCard: React.FC<MovieProps> = ({
               >
                 <span className="bg-slate-400 shadow-slate-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]">
                 </span>
-                Open on IMDB
+                Open in IMDB
               </button>
             </div>
           </div>
