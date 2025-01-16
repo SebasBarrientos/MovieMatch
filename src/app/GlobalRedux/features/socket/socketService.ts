@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 
 const socket = io('http://localhost:3000')
 
-const createRoom = (newRoomId: number): Promise<number> => {
+const createRoom = (newRoomId: string): Promise<number> => {
     return new Promise((resolve, reject) => {
         socket.emit("create-room", newRoomId);
 

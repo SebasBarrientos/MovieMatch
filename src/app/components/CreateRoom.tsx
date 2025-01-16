@@ -3,11 +3,12 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createRoom } from "@/app/GlobalRedux/features/socket/socketSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from '@/app/GlobalRedux/store';
+import { RootState, AppDispatch } from '@/app/GlobalRedux/store';
 const CreateRoom = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+
+  const dispatch = useDispatch<AppDispatch>();
   const { socket } = useSelector((state: RootState) => state.socket);
 
   const handleCreateRoom = async () => {
@@ -20,15 +21,10 @@ const CreateRoom = () => {
     setLoading(true);
     const newRoomId: string = Math.random().toString(36).substring(2, 8).toUpperCase();
     try {
-      const success = dispatch(createRoom(newRoomId));
-
-      if (success) {
-        router.push(`/room/${newRoomId}/lobby`);
-      } else {
-        alert("Error creating the room.");
-      }
+      dispatch(createRoom(newRoomId));
+      router.push(`/room/${newRoomId}/lobby`);
     } catch (error) {
-      alert("Error conecting to the server.");
+      alert("Error conecting to the server: " + error );
     } finally {
       setLoading(false);
     }
@@ -43,7 +39,7 @@ const CreateRoom = () => {
         <span className="bg-slate-400 shadow-slate-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
         {loading ? "Creating Room..." : "Create Room"}
       </button>
-  </>
+    </>
   );
 };
 

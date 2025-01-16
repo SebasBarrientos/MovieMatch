@@ -92,7 +92,7 @@ const socketSlice = createSlice({
 export const connectSocket = createAsyncThunk('socket/connect', () => {
   return socketService.socket;
 })
-export const createRoom = createAsyncThunk('socket/createRoom', async (newRoomId: number) => {
+export const createRoom = createAsyncThunk('socket/createRoom', async (newRoomId: string) => {
   try {
     return await socketService.createRoom(newRoomId);
   } catch (error) {

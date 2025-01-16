@@ -1,7 +1,7 @@
 import { usePathname } from "next/navigation";
 
 
-export const extractIdRoom = () => {
+export const ExtractIdRoom = () => {
 
   const regex = /room\/([^/]+)/;
     const pathName = usePathname()
@@ -13,4 +13,4 @@ export const extractIdRoom = () => {
     }
   }
 
-  export default extractIdRoom
+  export default ExtractIdRoom

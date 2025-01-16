@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { button } from "./Button";
 const JoinRoom = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);

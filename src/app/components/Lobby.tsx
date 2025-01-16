@@ -1,13 +1,15 @@
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import extractIdRoom from "@/app/utils/catchRoomId";
+import ExtractIdRoom from "@/app/utils/catchRoomId";
 import { useDispatch, useSelector } from "react-redux";
 import { connectToRoom, setUsers } from "../GlobalRedux/features/socket/socketSlice";
-import { RootState } from '@/app/GlobalRedux/store';
+import { RootState, AppDispatch } from '@/app/GlobalRedux/store';
+
 
 const Lobby = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+
   const { socket, room, conectionError } = useSelector((state: RootState) => state.socket);
   const router = useRouter();
   if (!socket) {
@@ -15,7 +17,7 @@ const Lobby = () => {
     router.push("/")
     return;
   }
-  const roomId = extractIdRoom();
+  const roomId = ExtractIdRoom();
   socket.on("update-users", (users: []) => {
     dispatch(setUsers(users));
   });
