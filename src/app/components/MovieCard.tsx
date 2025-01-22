@@ -8,9 +8,9 @@ interface MovieProps {
   title: string;
   overview: string;
   posterPath: string;
-  release_date: string;
+  release_date: any;
   onVote: (vote: boolean) => void;
-  winner: string;
+  winner: any;
 }
 
 const MovieCard: React.FC<MovieProps> = ({
@@ -27,11 +27,11 @@ const MovieCard: React.FC<MovieProps> = ({
     disabled: false,
   });
 
-  // const router = useRouter();
+  const router = useRouter();
   const { socket, room } = useSelector((state: RootState) => state.socket);
 
   const roomId: any = room.roomId;
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (winner != null) {
