@@ -15,13 +15,13 @@ const Lobby = () => {
   if (!socket) {
     alert('No hay conexión con el servidor.');
     router.push("/")
-    return;
+    return null;
   }
   const roomId = ExtractIdRoom();
   socket.on("update-users", (users: []) => {
     dispatch(setUsers(users));
   });
-  socket.on("users-ready", (roomId) => {
+  socket.on("users-ready", (roomId:string) => {
 
     router.push(`/room/${roomId}/categories`)
   });

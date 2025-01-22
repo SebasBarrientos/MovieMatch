@@ -4,10 +4,11 @@ import CreateRoom from './components/CreateRoom'
 import JoinRoom from './components/JoinRoom'
 import { useDispatch } from 'react-redux';
 import { connectSocket } from '@/app/GlobalRedux/features/socket/socketSlice';
+import { AppDispatch } from '@/app/GlobalRedux/store';
+
 
 const Page = () => {
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(connectSocket());
   }, []);
@@ -17,7 +18,7 @@ const Page = () => {
       <div className="bg-slate-950 text-slate-400 min-h-screen flex flex-col items-center justify-center px-6 py-12">
         <div className="max-w-4xl text-center">
           <h1 className="text-4xl cursor-pointer text-white font-bold relative mb-4 text-center bg-gradient-to-r from-violet-500 from-10% via-sky-500 via-30% to-pink-500 to-90% bg-[length:400%] rounded-[30px] z-10 hover:animate-gradient-xy hover:bg-[length:100%] before:content-[''] before:absolute before:-top-[5px] before:-bottom-[5px] before:-left-[5px] before:-right-[5px] before:bg-gradient-to-r before:from-violet-500 before:from-10% before:via-sky-500 before:via-30% before:to-pink-500 before:bg-[length:400%] before:-z-10 before:rounded-[35px] before:hover:blur-xl before:transition-all before:ease-in-out before:duration-[1s] before:hover:bg-[length:10%] active:bg-violet-700 focus:ring-violet-700"
->¡Bienvenido a MovieMatch! 🎬🍿</h1>
+          >¡Bienvenido a MovieMatch! 🎬🍿</h1>
           <p className="text-lg text-slate-400 mb-6">
             ¿Cansado de pasar horas buscando qué película ver con amigos o familia?<br />
             <span className="text-slate-200 font-semibold">¡MovieMatch</span> está aquí para ayudarte!
@@ -46,7 +47,7 @@ const Page = () => {
 
             <CreateRoom />
 
-            
+
             <JoinRoom />
           </div>
         </div>

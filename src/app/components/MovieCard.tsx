@@ -8,9 +8,9 @@ interface MovieProps {
   title: string;
   overview: string;
   posterPath: string;
-  release_date: any;
+  release_date: string;
   onVote: (vote: boolean) => void;
-  winner: any;
+  winner: string;
 }
 
 const MovieCard: React.FC<MovieProps> = ({
@@ -27,11 +27,11 @@ const MovieCard: React.FC<MovieProps> = ({
     disabled: false,
   });
 
-  const router = useRouter();
+  // const router = useRouter();
   const { socket, room } = useSelector((state: RootState) => state.socket);
 
   const roomId: any = room.roomId;
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   useEffect(() => {
     if (winner != null) {
@@ -54,10 +54,10 @@ const MovieCard: React.FC<MovieProps> = ({
           disabled: true,
         });
       } else if (url === undefined) {
-        router.push(`https://www.themoviedb.org/movie/${movieId}/watch`);
+        window.open(`https://www.themoviedb.org/movie/${movieId}/watch`);
         alert("We couldn't find providers for this movie in your country.");
       } else {
-        router.push(url);
+        window.open(url);
       }
     } catch (error) {
       console.error("Error fetching movie providers:", error);
@@ -75,7 +75,6 @@ const MovieCard: React.FC<MovieProps> = ({
       if (imdb_id === undefined) {
         alert("We couldn't find it in IMDB!");
       } else {
-        console.log("LLEGUEEE", imdb_id);
         window.open(`https://www.imdb.com/es/title/${imdb_id}`, "_blank");
       }
     } catch (error) {

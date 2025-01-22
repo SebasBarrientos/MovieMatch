@@ -6,6 +6,12 @@ import { RootState } from "@/app/GlobalRedux/store";
 import MovieCard from "@/app/components/MovieCard";
 import { setMovieList } from "@/app/GlobalRedux/features/socket/socketSlice";
 import { useRouter } from "next/navigation";
+interface Movie {
+    title: string;
+    overview: string;
+    backdrop_path: string;
+    release_date: string;
+}
 
 const SelectMovies = () => {
     const { socket, room, movieList } = useSelector((state: RootState) => state.socket);
@@ -16,7 +22,7 @@ const SelectMovies = () => {
 
     const [winner, setWinner] = useState(null);
     const [index, setIndex] = useState(0);
-    const [movie, setMovie] = useState(movieList[0]); // Start with the first movie
+    const [movie, setMovie] = useState<Movie | null>(null); // Start with the first movie
     if (socket === null) {
         alert('No hay conexión con el servidor.');
         router.push("/")
@@ -29,6 +35,12 @@ const SelectMovies = () => {
         socket.emit("vote-movie", { roomId, vote: like ? "like" : "dislike" });
 
     };
+    useEffect(() => {
+        // Establecer la película inicial solo si `movieList` no está vacío
+        if (movieList.length > 0) {
+            setMovie(movieList[index]);
+        }
+    }, [movieList, index]);
     useEffect(() => {
         setMovie(movieList[index]);
     }, [movieList])
@@ -45,11 +57,9 @@ const SelectMovies = () => {
 
         socket.on("next-movie", handleNextMovie);
         socket.on("match-found", handleWinner);
-        socket.on("no-more-movies", ({ results, index }) => {
+        socket.on("no-more-movies", ({ results, index }:{results:[], index:number}) => {
             setIndex(index)
             dispatch(setMovieList(results));
-
-
         });
 
         return () => {

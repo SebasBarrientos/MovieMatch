@@ -1,12 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { io, Socket } from 'socket.io-client';
 import socketService from './socketService';
-import { log } from 'console';
 
 interface SocketState {
-  socket: any | null;
+  socket: any
   room: {
-    roomId: number | null,
+    roomId: string
     users: string[] | null
   };
   isConnected: boolean;
@@ -21,7 +19,7 @@ interface SocketState {
 const initialState: SocketState = {
   socket: null,
   room: {
-    roomId: null,
+    roomId: "",
     users: []
   },
   isConnected: false,
@@ -55,12 +53,10 @@ const socketSlice = createSlice({
         state.room.roomId = action.payload;
       })
       .addCase(createRoom.rejected, (state, action) => {
-        console.error("Failed to create room:", action.payload); // Logging
+        console.error("Failed to create room:", action.payload);
       })
       .addCase(connectToRoom.fulfilled, (state, action) => {
-        state.room.roomId = action.payload.roomId;
-        //   console.log(action.payload);
-        //   state.room.roomId = action.payload;
+        state.room.roomId = action.payload;
       })
       .addCase(connectToRoom.rejected, (state, action) => {
         console.error("Failed to join room:", action.payload)
@@ -72,18 +68,7 @@ const socketSlice = createSlice({
       .addCase(selectCategory.fulfilled, (state, action) => {
         state.loading = false
       })
-      // .addCase(movieProviders.fulfilled, (state, action) => {
-      //   console.log(action.payload.results);
-      //   if (Object.keys(action.payload.results).length === 0) {
-      //     console.log("Results vacio");
-          
-      //     state.movieProviders = "Only in Cinemas"
-      //   }  else {
-      //     state.movieProviders = action.payload.results.ES
-      //     console.log("Results vacio y condicional no funciona1");
-      //   }        
-      //   console.log("Results vacio y condicional no funciona2");
-      // })
+
   },
 })
 
@@ -92,13 +77,15 @@ const socketSlice = createSlice({
 export const connectSocket = createAsyncThunk('socket/connect', () => {
   return socketService.socket;
 })
-export const createRoom = createAsyncThunk('socket/createRoom', async (newRoomId: string) => {
-  try {
-    return await socketService.createRoom(newRoomId);
-  } catch (error) {
-    console.error(error);
+export const createRoom = createAsyncThunk('socket/createRoom',async (newRoomId: string, { rejectWithValue }) => {
+    try {
+      return await socketService.createRoom(newRoomId);
+    } catch (error: any) {
+      console.error(error.message);
+      return rejectWithValue(error.message); // Maneja errores explícitamente
+    }
   }
-});
+);
 export const connectToRoom = createAsyncThunk('socket/connectToRoom', async (roomId: string, { rejectWithValue }) => {
   try {
     return await socketService.connectToRoom(roomId);
@@ -107,7 +94,7 @@ export const connectToRoom = createAsyncThunk('socket/connectToRoom', async (roo
     return rejectWithValue(error.message);
   }
 });
-export const selectCategory = createAsyncThunk('socket/selectCategory', async ({ roomId, userId, selected }: { roomId: number; userId: number; selected: [] }) => {
+export const selectCategory = createAsyncThunk('socket/selectCategory', async ({ roomId, userId, selected }: { roomId: string; userId: number; selected: number[] }) => {
   try {
     console.log(roomId);
 
@@ -117,14 +104,7 @@ export const selectCategory = createAsyncThunk('socket/selectCategory', async ({
     return error.message;
   }
 });
-// export const movieProviders = createAsyncThunk("socket/movieProviders", async ({ roomId, movieId }: { roomId: number; movieId: number }) => {
-//   try {
-//     return await socketService.movieProviders(roomId, movieId);
-//   } catch (error: any) {
-//     console.error("Error al intentar conectar a la sala:", error.message);
-//     return error.message;
-//   }
-// })
+
 
 
 

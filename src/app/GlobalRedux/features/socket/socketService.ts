@@ -2,13 +2,14 @@ import { io } from "socket.io-client";
 
 const socket = io('http://localhost:3000')
 
-const createRoom = (newRoomId: string): Promise<number> => {
+const createRoom = (newRoomId: string): Promise<string> => {
     return new Promise((resolve, reject) => {
         socket.emit("create-room", newRoomId);
 
         socket.once("room-created", (response) => {
             if (response.success) {
-                resolve(response.roomId); // Devuelve el roomId
+                const roomId:string = response.roomId 
+                resolve(roomId); // Devuelve el roomId
             } else {
                 reject(new Error("No se pudo crear la sala."));
             }
@@ -26,7 +27,8 @@ const connectToRoom = (roomId: string): Promise<string> => {
 
         socket.once("room-joined", (response) => {
             if (response.success) {
-                resolve(response); // Devuelve el roomId
+                const roomId:string = response.roomId 
+                resolve(roomId); // Devuelve el roomId
             } else {
                 reject(new Error("No se pudo unir a la sala."));
             }
@@ -37,7 +39,7 @@ const connectToRoom = (roomId: string): Promise<string> => {
         });
     });
 };
-const selectCategory = (roomId: number, userId: number, categories: []): Promise<string> => {
+const selectCategory = (roomId: string, userId: number, categories: number[]): Promise<string> => {
     return new Promise((resolve, reject) => {
         socket.emit("select-categories", { roomId, userId, categories });
 
@@ -68,7 +70,6 @@ const movieProviders = (roomId: number, movieId: number): Promise<string | undef
                 }
                 resolve(response.providers.results.ES.link);
             } else {
-                console.log("Estoy en el else", response.providers);
                 resolve("Only in Cinemas");
             }
         });
