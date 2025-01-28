@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 
-// const socket = io('http://localhost:3000')
-const socket = io('https://moviedateapp.onrender.com')
+const socket = io('http://localhost:3000')
+// const socket = io('https://moviedateapp.onrender.com')
 
 const createRoom = (newRoomId: string): Promise<string> => {
     return new Promise((resolve, reject) => {

@@ -26,8 +26,6 @@ const SelectMovies = () => {
     if (socket === null) {
         alert('No hay conexión con el servidor.');
         router.push("/")
-        console.log("Entramos en el codicinonas");
-
         return;
     }
     // Emit a vote for the current movie

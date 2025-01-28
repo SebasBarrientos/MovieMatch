@@ -38,7 +38,9 @@ const MovieCard: React.FC<MovieProps> = ({
       setModalOpen(true);
     }
   }, [winner]);
-
+  const closeModal = () => {
+    setModalOpen(false)
+  }
   const handleContinueToProviders = async () => {
     const movieId = winner.id;
     console.log(movieId);
@@ -97,7 +99,7 @@ const MovieCard: React.FC<MovieProps> = ({
 
       <p className="text-center text-gray-300 mb-6">{overview}</p>
 
-        <p className="text-center text-gray-300 mb-6">Release Date: {release_date}</p>
+      <p className="text-center text-gray-300 mb-6">Release Date: {release_date}</p>
       <div className="flex justify-around w-full">
         <button
           onClick={() => onVote(true)}
@@ -121,13 +123,13 @@ const MovieCard: React.FC<MovieProps> = ({
             <h2
               className="text-3xl cursor-pointer text-white font-bold relative mb-4 text-center bg-gradient-to-r from-violet-500 from-10% via-sky-500 via-30% to-pink-500 to-90% bg-[length:400%] rounded-[20px] z-10 hover:animate-gradient-xy hover:bg-[length:100%] before:content-[''] before:absolute before:-top-[5px] before:-bottom-[5px] before:-left-[5px] before:-right-[5px] before:bg-gradient-to-r before:from-violet-500 before:from-10% before:via-sky-500 before:via-30% before:to-pink-500 before:bg-[length:400%] before:-z-10 before:rounded-[25px] before:hover:blur-xl before:transition-all before:ease-in-out before:duration-[1s] before:hover:bg-[length:10%] active:bg-violet-700 focus:ring-violet-700"
             >
-              MovieMatch
+              MovieMatch 🍿
             </h2>
             <p className="mb-4 text-center relative ">
               The winner is: <span className="font-semibold">{title}</span>
               <span className="absolute left-1/2 -translate-x-1/2 -bottom-1 h-[3px] w-full max-w-xs bg-gradient-to-r from-violet-500 from-10% via-sky-500 via-30% to-pink-500 to-90% bg-[length:400%] rounded-full z-10 hover:animate-gradient-xy hover:bg-[length:100%] before:content-[''] before:absolute before:-top-[1px] before:-bottom-[1px] before:-left-[5px] before:-right-[5px] before:bg-gradient-to-r before:from-violet-500 before:from-10% before:via-sky-500 before:via-30% before:to-pink-500 before:bg-[length:400%] before:-z-10 before:rounded-full before:hover:blur-md before:transition-all before:ease-in-out before:duration-[1s] before:hover:bg-[length:10%]"></span>
             </p>
-            <div className="flex flex-col items-center gap-4">
+            <div className="flex justify-center items-center gap-4 ">
               <button
                 onClick={handleContinueToProviders}
                 disabled={buttonState.disabled}
@@ -149,7 +151,20 @@ const MovieCard: React.FC<MovieProps> = ({
                 </span>
                 Open in IMDB
               </button>
+
             </div>
+
+         
+            <div className="flex justify-center items-center mt-6 ">
+
+              <button
+                onClick={closeModal}
+                className="bg-slate-950 text-slate-400 border border-slate-400 border-b-4 font-medium overflow-hidden relative px-1 py-1 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group">
+                Not sure? Keep matching!
+              </button>
+              <span className="absolute left-1/2 -translate-x-1/2 -bottom-1 h-[3px] w-full max-w-xs bg-gradient-to-r from-violet-500 from-10% via-sky-500 via-30% to-pink-500 to-90% bg-[length:400%] rounded-full z-10 hover:animate-gradient-xy hover:bg-[length:100%] before:content-[''] before:absolute before:-top-[1px] before:-bottom-[1px] before:-left-[5px] before:-right-[5px] before:bg-gradient-to-r before:from-violet-500 before:from-10% before:via-sky-500 before:via-30% before:to-pink-500 before:bg-[length:400%] before:-z-10 before:rounded-full before:hover:blur-md before:transition-all before:ease-in-out before:duration-[1s] before:hover:bg-[length:10%]"></span>
+            </div>
+
           </div>
         </div>
       )}

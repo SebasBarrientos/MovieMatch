@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ExtractIdRoom from "@/app/utils/catchRoomId";
@@ -13,7 +12,7 @@ const Lobby = () => {
   const { socket, room, conectionError } = useSelector((state: RootState) => state.socket);
   const router = useRouter();
   if (!socket) {
-    alert('No hay conexión con el servidor.');
+    alert('No connection to the server, going back to the homepage.');
     router.push("/")
     return null;
   }
@@ -21,7 +20,7 @@ const Lobby = () => {
   socket.on("update-users", (users: []) => {
     dispatch(setUsers(users));
   });
-  socket.on("users-ready", (roomId:string) => {
+  socket.on("users-ready", (roomId: string) => {
 
     router.push(`/room/${roomId}/categories`)
   });
@@ -34,14 +33,11 @@ const Lobby = () => {
 
   useEffect(() => {
     if (conectionError) {
-      alert("No se pudo unir a la sala. Redirigiendo...");
+      alert("Error joining, going back to the homepage.");
 
-      router.push("/"); // Redirige al inicio
+      router.push("/"); // Redirect to homepage
     }
   }, [conectionError])
-
-
-
 
   const handleReady = () => {
     socket.emit("ready", roomId);
@@ -53,17 +49,17 @@ const Lobby = () => {
         Room ID: <span className="text-sky-500">{roomId}</span>
       </h1>
       <p className="text-lg text-slate-400 mb-2 text-center">
-        Comparte el Room ID con el resto de los participantes.
+        Share the Room ID with the other participants.
       </p>
       <p className="text-lg text-slate-400 mb-6 text-center">
-        Participantes conectados: <span className="text-sky-500 font-semibold">{room.users?.length}</span>
+        Connected participants: <span className="text-sky-500 font-semibold">{room.users?.length}</span>
       </p>
       <button
         onClick={handleReady}
         className="bg-slate-950 text-slate-400 border border-slate-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
       >
         <span className="bg-slate-400 shadow-slate-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
-        ¡Estamos listos!
+        We’re ready!
       </button>
     </div>
 

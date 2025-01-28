@@ -42,6 +42,8 @@ function SelectCategories() {
 
   const [selected, setSelected] = useState<number[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<"match" | "no-match" | null>(null);
+
   const [matchedCategory, setMatchedCategory] = useState<string | null>(null);
 
   const getCategoryNameById = (id: number): string => {
@@ -69,16 +71,26 @@ function SelectCategories() {
     return;
   }
 
-  socket.on("category-match", ({ selectedCategory, results }: {selectedCategory:number, results: []}) => {
+  socket.on("category-match", ({ selectedCategory, results }: { selectedCategory: number, results: [] }) => {
+    setModalType ("match")
     dispatch(setMovieList(results));
     const categoryName = getCategoryNameById(Number(selectedCategory));
     setMatchedCategory(categoryName);
+
     setModalOpen(true);
+  });
+  socket.on("no-category-match", () => {
+    setModalType ("no-match")
+    setModalOpen(true);
+
   });
 
   const handleContinue = (): void => {
     setModalOpen(false);
-    router.push(`/room/${roomId}/movieMatch`);
+    if (modalType === "match") {
+      router.push(`/room/${roomId}/movieMatch`);
+    }
+    setModalType (null)
   };
 
   return (
@@ -112,10 +124,19 @@ function SelectCategories() {
       {modalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-slate-950 p-6 rounded-lg shadow-xl text-slate-300 max-w-md w-full text-center">
-            <h2 className="text-lg font-bold mb-4 text-slate-200">Category Matched</h2>
-            <p className="mb-4">
-              The selected category is: <span className="font-semibold text-sky-500">{matchedCategory}</span>
-            </p>
+            {modalType === "match" ? (
+              <>
+                <h2 className="text-lg font-bold mb-4 text-slate-200">Category Matched</h2>
+                <p className="mb-4">
+                  The selected category is: <span className="font-semibold text-sky-500">{matchedCategory}</span>
+                </p>
+              </>
+            ) : (
+              <>
+                <h2 className="text-lg font-bold mb-4 text-slate-200">No Category Matched</h2>
+                <p className="mb-4 text-red-400 font-semibold">No category matched! Please try again.</p>
+              </>
+            )}
             <button
               onClick={handleContinue}
               className="w-full bg-slate-950 text-slate-400 border border-slate-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
