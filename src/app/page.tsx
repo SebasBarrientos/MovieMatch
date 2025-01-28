@@ -29,8 +29,8 @@ const Page = () => {
             <li><span className="font-semibold text-slate-200">Create a room:</span> Invite your friends to join from anywhere.</li>
             <li><span className="font-semibold text-slate-200">Choose categories:</span> Each participant selects their favorite movie categories.</li>
             <li><span className="font-semibold text-slate-200">Find matches:</span> MovieMatch analyzes the selections to find common categories.</li>
-            <li><span className="font-semibold text-slate-200">Vote!:</span> Start voting "Like" or "Dislike" on the suggested movies.</li>
-            <li><span className="font-semibold text-slate-200">Discover the winner:</span> If everyone votes "Like," we have a winning movie! 🎉</li>
+            <li><span className="font-semibold text-slate-200">Vote!:</span> Start voting "Lets watch!" or "Next" on the suggested movies.</li>
+            <li><span className="font-semibold text-slate-200">Discover the winner:</span> If everyone votes "Lets watch!", we have a winning movie! 🎉</li>
           </ul>
           <p className="text-lg font-semibold text-slate-200 mb-8">
             Stop arguing and start enjoying! ✨
