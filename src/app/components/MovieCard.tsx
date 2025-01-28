@@ -103,17 +103,17 @@ const MovieCard: React.FC<MovieProps> = ({
       <div className="flex justify-around w-full">
         <button
           onClick={() => onVote(true)}
-          className="bg-green-500 text-white border border-green-500 border-b-4 font-medium overflow-hidden relative px-3 py-1 rounded-md hover:brightness-110 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
+          className="bg-blue-500 text-white border border-blue-500 border-b-4 font-medium overflow-hidden relative px-3 py-1 rounded-md hover:bg-blue-600 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
         >
-          <span className="bg-green-400 shadow-green-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
-          <span className="material-icons mr-2">Lets watch!</span>
+          <span className="bg-blue-400 shadow-blue-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
+          <span className="material-icons ">Let's watch it!</span>
         </button>
         <button
           onClick={() => onVote(false)}
-          className="bg-red-500 text-white border border-red-500 border-b-4 font-medium overflow-hidden relative px-3 py-1 rounded-md hover:brightness-110 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
+          className="bg-gray-500 text-white border border-gray-500 border-b-4 font-medium overflow-hidden relative px-3 py-1 rounded-md hover:bg-gray-600 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
         >
-          <span className="bg-red-400 shadow-red-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
-          <span className="material-icons mr-2">Next</span>
+          <span className="bg-gray-400 shadow-gray-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
+          <span className="material-icons">Next movie</span>
         </button>
       </div>
 
@@ -154,7 +154,7 @@ const MovieCard: React.FC<MovieProps> = ({
 
             </div>
 
-         
+
             <div className="flex justify-center items-center mt-6 ">
 
               <button
