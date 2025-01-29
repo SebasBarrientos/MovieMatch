@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MovieMatch
 
-## Getting Started
+## Description
 
-First, run the development server:
+**MovieMatch** is the perfect solution for those moments when you don't know what movie to watch. Whether with friends, family, or your partner, this app helps you quickly and interactively find the ideal movie. With a friendly and dynamic interface, you can explore options and decide in seconds what to watch.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Implemented Technologies
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js**: React framework for modern web applications.
+- **Tailwind CSS**: CSS framework for efficient and responsive design.
+- **TypeScript**: Superset of JavaScript that adds static typing.
+- **WebSockets**: For real-time communication with the backend, which is connected to APIs providing movie listings and information.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How to Access and Use the Application
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### You can access the functional application at the following link:
+🔗 [MovieMatch - Functional App](https://main.d2bnyg9ki64z5a.amplifyapp.com/)
 
-## Learn More
+### You can also try it locally by following these steps:
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the repository**:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   git clone https://github.com/SebasBarrientos/MovieMatch.git
+   cd MovieMatch
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Install dependencies**:
 
-## Deploy on Vercel
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Start the development server**:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   npm run dev
+   ```
+
+4. **Access the application**:
+
+   Open your browser and go to `http://localhost:3000` to interact with the app in development mode.
+
+## Instructions
+
+1. **Create or Join a Room**: Click "Join room" to create a new one or enter an existing room by completing the "Join room" field and click the button to join.
+2. **Select up to 3 Categories**: Click on different options to select them and press submit. If there is a match, everyone will proceed to the movie match page!
+3. **Vote for a Movie**: Use the app’s dynamic interface to make a quick decision without wasting time searching. Clicking "Next" will move all participants to the next option.
+4. **MovieMatch**: If everyone chooses the same movie, a pop-up will appear showing where to watch it, access to IMDb, or an option to continue searching.
+
+## Backend WebSocket
+
+MovieMatch uses a WebSocket-based backend to provide real-time communication. The source code for this backend is available at the following repository:
+
+🔗 [MovieDateApp - Backend WebSocket](https://github.com/SebasBarrientos/MovieDateApp)
+
+This backend manages real-time connections, allowing users to interact without delays. It is developed with **Node.js** and specialized WebSocket libraries, ensuring efficient and scalable communication.
