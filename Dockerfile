@@ -1,36 +1,35 @@
-# Utilizar node 20.9.0 en un sistema operativo Alpine
+# Usar Node 20.9.0 Alpine
 FROM node:20.9.0-alpine
 
-# crear un grupo y usuario para la aplicación
+# Crear grupo y usuario
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nextjs -u 1001
 
-# fijar el directorio de trabajo
+# Fijar directorio de trabajo
 WORKDIR /app
 
-# definir un argumento para el archivo de entorno
-ARG ENV_FILE
+# Copiar package.json y package-lock.json primero para cache
+COPY package*.json ./
 
-# Copiar todos los archivos de la ruta actual a la ruta base del contenedor
+# Instalar dependencias con legacy-peer-deps (evita conflictos)
+RUN npm install --legacy-peer-deps
+
+# Copiar el resto de archivos
 COPY . .
 
-# Copia el archivo de entorno especificado en la variable ARG
+# Copiar archivo de entorno si se pasa como argumento
+ARG ENV_FILE
 COPY ${ENV_FILE} .env
-
-# Instalar dependencias de node y js
-RUN npm install
 
 # Construir la aplicación
 RUN npm run build
 
-
-
+# Puerto que Cloud Run espera
+ENV PORT 3000
 EXPOSE 3000
 
-ENV PORT 3000
-
-# Cambiar el propietario de los archivos al usuario creado
+# Cambiar al usuario no root
 USER nextjs
 
-# Ejecutar el servidor
+# Ejecutar la app
 CMD [ "npm", "start" ]
