@@ -21,7 +21,11 @@ COPY . .
 ARG ENV_FILE
 COPY ${ENV_FILE} .env
 
-# Construir la aplicación
+# Definir variable de entorno antes de build
+ARG NEXT_PUBLIC_SERVER_URL
+ENV NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL}
+
+# Construir la app
 RUN npm run build
 
 # Puerto que Cloud Run espera
