@@ -5,7 +5,7 @@ import 'dotenv/config'
 const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 console.log(serverUrl);
 const socket = io(`${serverUrl}`)
-
+console.log('SERVER_URL:', process.env.NEXT_PUBLIC_SERVER_URL);
 const createRoom = (newRoomId: string): Promise<string> => {
     return new Promise((resolve, reject) => {
         socket.emit("create-room", newRoomId);
@@ -61,14 +61,12 @@ const selectCategory = (roomId: string, userId: number, categories: number[]): P
     });
 };
 const movieProviders = (roomId: number, movieId: number): Promise<string | undefined> => {
-    console.log(movieId);
     return new Promise((resolve, reject) => {
 
         socket.emit("movie-providers", { roomId, movieId });
 
         socket.once("movie-providers", (response) => {
             if (response.success && Object.keys(response.providers.results).length !== 0) {
-                console.log(response.providers);
                 if (!response.providers.results.ES) {
                     resolve(undefined)
                 }
@@ -84,7 +82,6 @@ const movieProviders = (roomId: number, movieId: number): Promise<string | undef
     });
 };
 const movieDetails = (roomId: number, movieId: number): Promise<string | undefined> => {
-    console.log(movieId);
     return new Promise((resolve, reject) => {
 
         socket.emit("movie-details", { roomId, movieId });

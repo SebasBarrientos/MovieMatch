@@ -17,23 +17,23 @@ RUN npm install --legacy-peer-deps
 # Copiar el resto de archivos
 COPY . .
 
-# Copiar archivo de entorno si se pasa como argumento
-ARG ENV_FILE
-COPY ${ENV_FILE} .env
-
-# Definir variable de entorno antes de build
+# IMPORTANTE: Definir ARG antes de usarlo
 ARG NEXT_PUBLIC_SERVER_URL
+# Setear como ENV para que esté disponible durante build Y runtime
 ENV NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL}
 
-# Construir la app
+# Debug: Mostrar la variable durante build
+RUN echo "Building with NEXT_PUBLIC_SERVER_URL: $NEXT_PUBLIC_SERVER_URL"
+
+# Construir la app (ahora con la variable disponible)
 RUN npm run build
 
 # Puerto que Cloud Run espera
-ENV PORT 3000
+ENV PORT=3000
 EXPOSE 3000
 
 # Cambiar al usuario no root
 USER nextjs
 
 # Ejecutar la app
-CMD [ "npm", "start" ]
+CMD ["npm", "start"]

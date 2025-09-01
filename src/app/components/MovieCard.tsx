@@ -43,14 +43,11 @@ const MovieCard: React.FC<MovieProps> = ({
   }
   const handleContinueToProviders = async () => {
     const movieId = winner.id;
-    console.log(movieId);
 
     try {
       const url = await socketService.movieProviders(roomId, movieId);
-      console.log(url);
 
       if (url === "Only in Cinemas") {
-        console.log("Solo en cines");
         setButtonState({
           text: "We are sorry, it's only in cinemas",
           disabled: true,
@@ -69,11 +66,9 @@ const MovieCard: React.FC<MovieProps> = ({
 
   const handleContinueToIMDB = async () => {
     const movieId = winner.id;
-    console.log(movieId);
 
     try {
       const imdb_id = await socketService.movieDetails(roomId, movieId);
-      console.log(imdb_id);
       if (imdb_id === undefined) {
         alert("We couldn't find it in IMDB!");
       } else {

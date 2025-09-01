@@ -12,7 +12,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
         const socket = socketService.socket;
 
         const handleDisconnect = () => {
-            console.log("🚨 Evento de salida disparado");
             if (socket && socket.connected) {
                 // socket.emit("disconnect", socket.id);
                 socket.disconnect();

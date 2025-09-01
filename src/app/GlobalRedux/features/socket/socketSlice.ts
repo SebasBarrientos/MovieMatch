@@ -96,8 +96,6 @@ export const connectToRoom = createAsyncThunk('socket/connectToRoom', async (roo
 });
 export const selectCategory = createAsyncThunk('socket/selectCategory', async ({ roomId, userId, selected }: { roomId: string; userId: number; selected: number[] }) => {
   try {
-    console.log(roomId);
-
     return await socketService.selectCategory(roomId, userId, selected);
   } catch (error: any) {
     console.error("Error al intentar conectar a la sala:", error.message);
