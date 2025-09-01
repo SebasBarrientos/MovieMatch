@@ -20,9 +20,6 @@ COPY ${ENV_FILE} .env
 # Instalar dependencias de node y js
 RUN npm install
 
-# Actualizar la base de datos
-# RUN npx prisma migrate deploy
-
 # Construir la aplicación
 RUN npm run build
 
