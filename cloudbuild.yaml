@@ -1,0 +1,33 @@
+steps:
+  # Build con la variable de entorno
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '--build-arg', 'NEXT_PUBLIC_SERVER_URL=${_NEXT_PUBLIC_SERVER_URL}',
+      '-t', '${_IMAGE_URL}',
+      '.'
+    ]
+
+  # Push de la imagen
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '${_IMAGE_URL}']
+
+  # Deploy a Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: [
+      'run', 'deploy', '${_SERVICE_NAME}',
+      '--image', '${_IMAGE_URL}',
+      '--region', '${_REGION}',
+      '--platform', 'managed',
+      '--allow-unauthenticated'
+    ]
+
+# Substitutions por defecto
+substitutions:
+  _SERVICE_NAME: moviematch
+  _REGION: europe-southwest1
+  _IMAGE_URL: europe-southwest1-docker.pkg.dev/${PROJECT_ID}/cloud-run-source-deploy/moviematch/moviematch:${SHORT_SHA}
+  _NEXT_PUBLIC_SERVER_URL: https://moviematch-back-636823811734.europe-southwest1.run.app
+
+options:
+  logging: CLOUD_LOGGING_ONLY
