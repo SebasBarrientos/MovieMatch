@@ -2,10 +2,9 @@ import { io } from "socket.io-client";
 import 'dotenv/config'
 // const socket = io('http://localhost:3000')
 
-const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
-console.log(serverUrl);
-const socket = io(`${serverUrl}`)
-console.log('SERVER_URL:', process.env.NEXT_PUBLIC_SERVER_URL);
+// const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+
+const socket = io("https://moviematch-back-636823811734.europe-southwest1.run.app")
 const createRoom = (newRoomId: string): Promise<string> => {
     return new Promise((resolve, reject) => {
         socket.emit("create-room", newRoomId);
