@@ -1,7 +1,10 @@
 import { io } from "socket.io-client";
-
+import 'dotenv/config'
 // const socket = io('http://localhost:3000')
-const socket = io('https://moviedateapp.onrender.com')
+
+const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+console.log(serverUrl);
+const socket = io(`${serverUrl}`)
 
 const createRoom = (newRoomId: string): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -102,7 +105,9 @@ const movieDetails = (roomId: number, movieId: number): Promise<string | undefin
     });
 };
 
-
+const disconnect = () => {
+    socket.disconnect()
+}
 
 
 const socketService = {
@@ -111,7 +116,8 @@ const socketService = {
     connectToRoom,
     selectCategory,
     movieProviders,
-    movieDetails
+    movieDetails,
+    disconnect
 };
 
 

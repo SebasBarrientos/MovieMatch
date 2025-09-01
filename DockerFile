@@ -1,0 +1,33 @@
+# Utilizar node 20.9.0 en un sistema operativo Alpine
+FROM node:20.9.0-alpine
+
+# crear un grupo y usuario para la aplicación
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001
+
+# fijar el directorio de trabajo
+WORKDIR /app
+
+# definir un argumento para el archivo de entorno
+ARG ENV_FILE
+
+# Copiar todos los archivos de la ruta actual a la ruta base del contenedor
+COPY . .
+
+# Copia el archivo de entorno especificado en la variable ARG
+COPY ${ENV_FILE} .env
+
+# Instalar dependencias de node y js
+RUN npm install
+
+# Actualizar la base de datos
+# RUN npx prisma migrate deploy
+
+# Construir la aplicación
+RUN npm run build
+
+# Cambiar el propietario de los archivos al usuario creado
+USER nextjs
+
+# Ejecutar el servidor
+CMD [ "npm", "start" ]

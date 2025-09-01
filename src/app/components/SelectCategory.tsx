@@ -104,7 +104,7 @@ function SelectCategories() {
             key={category.id}
             onClick={() => toggleCategory(category.id)}
             className={`p-4 text-center rounded-md cursor-pointer border-2 transition-all duration-300 hover:brightness-125 ${selected.includes(category.id)
-              ? "border-red-500 shadow-[0_0_10px_#ff0000]"
+              ? "border-blue-500 shadow-[0_0_10px_#0000ff]"
               : "border-slate-400"
               }`}
           >
