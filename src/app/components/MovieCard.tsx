@@ -81,7 +81,7 @@ const MovieCard: React.FC<MovieProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center bg-gray-900 text-white p-6 rounded-lg shadow-lg w-full max-w-lg mx-auto">
+    <div className="flex flex-col items-center bg-gray-900 text-slate-400 p-6 rounded-lg shadow-lg w-full max-w-lg mx-auto my-5">
       <img
         src={`https://image.tmdb.org/t/p/w500${posterPath}`}
         alt={title}
@@ -95,28 +95,28 @@ const MovieCard: React.FC<MovieProps> = ({
       <p className="text-center text-gray-300 mb-6">{overview}</p>
 
       <p className="text-center text-gray-300 mb-6">Release Date: {release_date}</p>
-      <div className="flex justify-around w-full">
+      <div className="flex justify-center w-full gap-5">
         <button
           onClick={() => onVote(true)}
-          className=" text-white border border-blue-500 border-b-4 font-medium overflow-hidden relative px-3 py-1 rounded-md hover:bg-blue-600 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
+          className=" text-slate-400 border bg-blue-500 border-blue-500 border-b-4 font-medium overflow-hidden relative px-5 py-1 rounded-xl hover:bg-blue-600 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
         >
           <span className="bg-blue-400 shadow-blue-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
-          <span className="material-icons ">Let's watch it!</span>
+          <span className="material-icons font-bold">Watch</span>
         </button>
         <button
           onClick={() => onVote(false)}
-          className="bg-gray-500 text-white border border-gray-500 border-b-4 font-medium overflow-hidden relative px-3 py-1 rounded-md hover:bg-gray-600 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
+          className="bg-gray-500 text-slate-400 border border-gray-500 border-b-4 font-medium overflow-hidden relative px-4 py-1 rounded-xl hover:bg-gray-600 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
         >
           <span className="bg-gray-400 shadow-gray-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
-          <span className="material-icons">Next movie</span>
+          <span className="material-icons font-bold">Next</span>
         </button>
       </div>
 
       {modalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-gray-800 text-white p-6 rounded-lg shadow-lg max-w-md w-full">
+          <div className="bg-gray-800 text-slate-400 p-6 rounded-lg shadow-lg max-w-md w-full">
             <h2
-              className="text-3xl cursor-pointer text-white font-bold relative mb-4 text-center bg-gradient-to-r from-violet-500 from-10% via-sky-500 via-30% to-pink-500 to-90% bg-[length:400%] rounded-[20px] z-10 hover:animate-gradient-xy hover:bg-[length:100%] before:content-[''] before:absolute before:-top-[5px] before:-bottom-[5px] before:-left-[5px] before:-right-[5px] before:bg-gradient-to-r before:from-violet-500 before:from-10% before:via-sky-500 before:via-30% before:to-pink-500 before:bg-[length:400%] before:-z-10 before:rounded-[25px] before:hover:blur-xl before:transition-all before:ease-in-out before:duration-[1s] before:hover:bg-[length:10%] active:bg-violet-700 focus:ring-violet-700"
+              className="text-3xl cursor-pointer text-slate-400 font-bold relative mb-4 text-center bg-gradient-to-r from-violet-500 from-10% via-sky-500 via-30% to-pink-500 to-90% bg-[length:400%] rounded-[20px] z-10 hover:animate-gradient-xy hover:bg-[length:100%] before:content-[''] before:absolute before:-top-[5px] before:-bottom-[5px] before:-left-[5px] before:-right-[5px] before:bg-gradient-to-r before:from-violet-500 before:from-10% before:via-sky-500 before:via-30% before:to-pink-500 before:bg-[length:400%] before:-z-10 before:rounded-[25px] before:hover:blur-xl before:transition-all before:ease-in-out before:duration-[1s] before:hover:bg-[length:10%] active:bg-violet-700 focus:ring-violet-700"
             >
               MovieMatch 🍿
             </h2>

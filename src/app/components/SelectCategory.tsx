@@ -94,7 +94,7 @@ function SelectCategories() {
   };
 
   return (
-    <div className="p-6 bg-slate-950 text-slate-400 rounded-lg shadow-lg max-w-4xl mx-auto">
+    <div className="p-6  text-slate-400 rounded-lg shadow-lg max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold text-slate-200 mb-6 text-center">
         Select up to 3 Categories
       </h1>

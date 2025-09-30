@@ -5,9 +5,8 @@ import { store } from "./store";
 import socketService from "./features/socket/socketService";
 import { useEffect } from "react";
 
-
 export function Providers({ children }: { children: React.ReactNode }) {
-        useEffect(() => {
+    useEffect(() => {
         const events = ["beforeunload", "pagehide", "unload"];
         const socket = socketService.socket;
 

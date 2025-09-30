@@ -35,9 +35,8 @@ const CreateRoom = () => {
       <button
         onClick={handleCreateRoom}
         disabled={loading}
-        className="bg-slate-950 text-slate-400 border border-slate-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group">
-        <span className="bg-slate-400 shadow-slate-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
-        {loading ? "Creating Room..." : "Create Room"}
+        className="w-full h-14 text-lg rounded-md font-bold bg-gradient-to-br from-[hsl(45,85%,55%)] to-[hsl(35,80%,50%)] hover:opacity-90  shadow-glow transition-all duration-300 hover:shadow-[0_0_40px_hsl(45_85%_55%_/_0.4)]">
+        {loading ? "Creating Room..." : "Create new Room"}
       </button>
     </>
   );
